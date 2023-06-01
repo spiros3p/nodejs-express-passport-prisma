@@ -15,28 +15,32 @@ import { validationUserSignUp } from '../middleware/validation.middleware.js';
 const router = Router();
 
 router.post(
-    '/user',
+    '',
     // checkAuthenticated,
     // checkAdmin,
     validationUserSignUp,
     createUser
 );
 router.get(
-    '/user',
+    '',
     // checkAuthenticated, checkAdmin,
     getUsers
 );
 router.get(
-    '/user/:id',
+    '/:id',
     // checkAuthenticated, checkAdmin,
     getUser
 );
 router.patch(
-    '/user/:id',
+    '/:id',
     //  checkAuthenticated, checkAdmin,
     updateUser
 );
-router.delete('/user/:id', checkAuthenticated, checkAdmin, deleteUser);
+router.delete(
+    '/:id',
+    //  checkAuthenticated, checkAdmin,
+    deleteUser
+);
 
 /** Alternative */
 // router

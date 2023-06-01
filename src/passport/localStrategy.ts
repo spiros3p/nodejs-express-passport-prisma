@@ -1,28 +1,43 @@
 import { Strategy as LocalStrategy } from 'passport-local';
-import { User } from '../models/user.model.js';
 import bcrypt from 'bcrypt';
+import { Request } from 'express';
+import prisma from '../../prisma/prisma.config.js';
 
-const authenticateUser = async (req, email, password, done) => {
+const authenticateUser = async (
+    req: Request,
+    email: string,
+    password: string,
+    done: any
+) => {
     try {
-        const [user] = await User.findByEmail(email);
+        const user = await prisma?.user.findFirst({ where: { email: email } });
 
-        if (user.length !== 1) {
+        if (!user) {
             const error = new Error('Wrong Credentials...');
+            // @ts-ignore
             error.statusCode = 401;
             throw error;
         }
-        const storedUser = user[0][0];
+        const storedUser = user;
         const isEqual = await bcrypt.compare(password, storedUser.password);
 
         if (!isEqual) {
             const error = new Error('Wrong Credentials...');
+            // @ts-ignore
             error.statusCode = 401;
             throw error;
         }
-        delete user[0][0]['password'];
-        return done(null, user[0][0]);
+        // @ts-ignore
+        delete user['password'];
+        return done(null, user);
     } catch (err) {
+        console.log('hereee');
+        console.log(err);
+
+        // @ts-ignore
         if (!err.statusCode) {
+            console.log('hereee 111');
+            // @ts-ignore
             err.statusCode = 500;
         }
         done(err);

@@ -1,31 +1,10 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import session from 'express-session';
-import passport from 'passport';
-import { initializePassport } from './passport/passport.config.js';
-import { get404, get500 } from './controllers/error.controller.js';
-import authRoutes from './routes/authentication.route.js';
-import adminRoutes from './routes/admin.route.js';
+import { NextFunction, Request, Response } from 'express';
 
-dotenv.config();
-const app = express();
-app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-    })
-);
-
-// PASSPORT
-initializePassport(passport);
-app.use(passport.initialize());
-app.use(passport.session());
-
-// HEADER Configuration
-app.use((req, res, next) => {
+export const setHeaderSettings = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     // --------
     res.setHeader('Access-Control-Allow-Origin', '*');
     // --------
@@ -43,6 +22,7 @@ app.use((req, res, next) => {
         'Access-Control-Allow-Methods',
         'GET, POST, PATCH, DELETE, OPTIONS'
     );
+    // @ts-ignore
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader(
         'Access-Control-Allow-Headers',
@@ -52,18 +32,4 @@ app.use((req, res, next) => {
         return res.status(200).end();
     }
     next();
-});
-
-// ROUTES
-app.use('/auth', authRoutes);
-app.use('/admin', adminRoutes);
-
-// ERRORS
-app.use(get404);
-app.use(get500);
-
-// START server
-const PORT = process.env.PORT_BE || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+};

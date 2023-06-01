@@ -3,16 +3,23 @@
         "es2022": true,
         "node": true
     },
-    "extends": ["eslint:recommended", "prettier"],
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "eslint:recommended",
+        "prettier",
+        "plugin:@typescript-eslint/eslint-recommended"
+        // "plugin:@typescript-eslint/recommended"
+    ],
     "overrides": [],
     "parserOptions": {
         "ecmaVersion": 13,
         "sourceType": "module"
     },
     "rules": {
+        // "@typescript-eslint/ban-ts-ignore": "off",
         "prettier/prettier": "error",
         "no-unused-vars": "off"
     },
-    "plugins": ["prettier"],
+    "plugins": ["prettier", "@typescript-eslint"],
     "root": true
 }

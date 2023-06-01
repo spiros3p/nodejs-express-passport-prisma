@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { User } from '../models/user.model.js';
 import {
     checkNotAuthenticated,
     checkIsAccepted,
@@ -17,7 +16,7 @@ import { validationUserSignUp } from '../middleware/validation.middleware.js';
 
 const router = Router();
 
-router.post('/signup', checkNotAuthenticated, validationUserSignUp, createUser);
+// router.post('/signup', checkNotAuthenticated, validationUserSignUp, createUser);
 
 router.post(
     '/login',
