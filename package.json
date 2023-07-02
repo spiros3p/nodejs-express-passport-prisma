@@ -13,7 +13,8 @@
         "dev": "nodemon --exec ts-node --esm src/index.ts",
         "start": "tsc && node ./dist/src/index.js",
         "build": "tsc",
-        "migrate": "prisma migrate dev --name init"
+        "prisma:migrate": "prisma migrate dev --name init",
+        "prisma:generate": "prisma generate"
     },
     "type": "module",
     "keywords": [],
